@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
   requireNativeComponent,
   NativeModules,
@@ -9,20 +9,20 @@ import {
 
 const LINKING_ERROR =
   `The package 'react-native-blasted-image' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: "" }) +
+  Platform.select({ios: "- You have run 'pod install'\n", default: ""}) +
   "- You rebuilt the app after installing the package\n" +
   "- You are not using Expo Go\n";
 
 const NativeBlastedImage = NativeModules.BlastedImage
   ? NativeModules.BlastedImage
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 export const loadImage = (imageUrl, headers = {}, skipMemoryCache = false) => {
   return NativeBlastedImage.loadImage(imageUrl, headers, skipMemoryCache).catch(
@@ -186,7 +186,7 @@ function renderImageContent(
       return (
         <Image
           source={fallbackSource}
-          style={{ width: adjustedHeight, height: adjustedHeight }}
+          style={{width: adjustedHeight, height: adjustedHeight}}
           resizeMode={resizeMode}
         />
       );
@@ -195,7 +195,7 @@ function renderImageContent(
       return (
         <Image
           source={require("./assets/image-error.png")}
-          style={{ width: adjustedHeight, height: adjustedHeight }}
+          style={{width: adjustedHeight, height: adjustedHeight}}
           resizeMode={resizeMode}
         />
       );
@@ -205,7 +205,7 @@ function renderImageContent(
     return (
       <Image
         source={source}
-        style={{ width: adjustedWidth, height: adjustedHeight }}
+        style={{width: adjustedWidth, height: adjustedHeight}}
         resizeMode={resizeMode}
       />
     );
@@ -252,6 +252,11 @@ BlastedImage.preload = (input) => {
     }
     // array
     else if (Array.isArray(input)) {
+      if (loadImage.length === 0) {
+        resolve();
+        return;
+      }
+
       let loadedCount = 0;
       input.forEach((image) => {
         loadImage(image.uri, image.headers, image.skipMemoryCache)
