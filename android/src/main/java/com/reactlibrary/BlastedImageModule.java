@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.Color;
 
 import android.util.Log;
 
@@ -98,7 +96,6 @@ public class BlastedImageModule extends ReactContextBaseJavaModule {
 
             Glide.with(getReactApplicationContext())
                 .load(glideUrl)
-                .placeholder(new ColorDrawable(Color.BLACK))
                 .apply(requestOptions)
                 .listener(new RequestListener<Drawable>() {
                     @Override
